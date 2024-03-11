@@ -1,34 +1,89 @@
-name: Main Workflow
+name: Fullstack Deployment to Azure Web App
+
 on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
-  trigger_frontend_workflow:
+  deploy:
     runs-on: ubuntu-latest
-    steps:
-      - name: Trigger Frontend Workflow
-        uses: actions/checkout@v2
-      - name: Run Frontend Workflow
-        run: |
-          cd frontend
-          git checkout main
-          git pull origin main
-          cd ..
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  trigger_backend_workflow:
-    runs-on: ubuntu-latest
     steps:
-      - name: Trigger Backend Workflow
-        uses: actions/checkout@v2
-      - name: Run Backend Workflow
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python version
+        uses: actions/setup-python@v1
+        with:
+          python-version: '3.12'
+
+      - name: Create and start virtual environment
         run: |
-          cd backend
-          git checkout main
-          git pull origin main
-          cd ..
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          python -m venv venv
+          source venv/bin/activate
+
+      - name: Install backend dependencies
+        run: pip install -r requirements.txt
+
+      - name: Zip backend artifact for deployment
+        run: zip -r backend.zip app.py prompt.txt requirements.txt
+
+      - name: Upload backend artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: backend-artifact
+          path: backend.zip
+
+      # Frontend Deployment
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20'
+
+      - name: Install frontend dependencies
+        run: npm install
+
+      - name: Build frontend
+        run: npm run build
+
+      - name: Zip frontend artifact for deployment
+        run: zip -r frontend.zip build/ package.json package-lock.json
+
+      - name: Upload frontend artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: frontend-artifact
+          path: frontend.zip
+
+      # Azure Deployment
+      - name: Download backend artifact for deployment
+        uses: actions/download-artifact@v2
+        with:
+          name: backend-artifact
+
+      - name: Unzip backend artifact for deployment
+        run: unzip backend.zip
+
+      - name: Download frontend artifact for deployment
+        uses: actions/download-artifact@v2
+        with:
+          name: frontend-artifact
+
+      - name: Unzip frontend artifact for deployment
+        run: unzip frontend.zip
+
+      - name: 'Deploy Backend to Azure Web App'
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: 'textadventure'
+          slot-name: 'Backend'
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_686FE9CADF644C2F8507F684BB702B59 }}
+
+      - name: 'Deploy Frontend to Azure Web App'
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: 'textadventure'
+          slot-name: 'Frontend'
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_686FE9CADF644C2F8507F684BB702B59 }}

@@ -1,4 +1,4 @@
-name: Build and deploy React+Flask App to Azure Web App - textadventure
+name: Flask Backend
 
 on:
   push:
@@ -50,7 +50,7 @@ jobs:
 
       - name: Unzip backend artifact for deployment
         run: unzip backend.zip
-        
+
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v2
         id: deploy-to-webapp

@@ -1,0 +1,38 @@
+name: Build and deploy React+Flask App to Azure Web App - textadventure
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  trigger_frontend_workflow:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Trigger Frontend Workflow
+        uses: actions/checkout@v4
+
+      # Trigger the frontend workflow
+      - name: Trigger Frontend Workflow
+        uses: peter-evans/repository-dispatch@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          event-type: trigger-subfolder-workflow
+          client-payload: '{"path": "frontend/.github/workflows/frontend_workflow.yml"}'
+
+  trigger_backend_workflow:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Trigger Backend Workflow
+        uses: actions/checkout@v4
+
+      # Trigger the backend workflow
+      - name: Trigger Backend Workflow
+        uses: peter-evans/repository-dispatch@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          event-type: trigger-subfolder-workflow
+          client-payload: '{"path": "backend/.github/workflows/backend_workflow.yml"}'

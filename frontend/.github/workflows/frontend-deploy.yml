@@ -1,4 +1,4 @@
-name: Build and deploy React+Flask App to Azure Web App - textadventure
+name: React Frontend
 
 on:
   push:

@@ -35,7 +35,8 @@ jobs:
       - name: Navigate to frontend directory
         run: |
           cd frontend
-          ls
+          ls -la
+          pwd  
 
       - name: Install frontend dependencies
         run: npm install

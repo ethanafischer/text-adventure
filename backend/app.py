@@ -18,6 +18,8 @@ def generate():
     user_input = data.get('input')
     messages.append({"role": "user", "content": user_input})
 
+    print(messages)
+
     try:
         generate = client.chat.completions.create(
                 model="gpt-3.5-turbo-0125", messages=messages
@@ -28,6 +30,12 @@ def generate():
     
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+    
+@app.route('/reset', methods=['POST'])
+def reset_messages():
+    global messages
+    messages = [ {"role": "system", "content": prompt} ]
+    return jsonify({"message": "Messages reset successfully."})
     
 
 if __name__ == '__main__':

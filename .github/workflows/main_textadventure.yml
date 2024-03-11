@@ -39,7 +39,7 @@ jobs:
           pwd  
 
       - name: Install frontend dependencies
-        run: npm install ./frontend/package.json
+        run: npm install ./frontend
 
       - name: Build frontend
         run: npm run build

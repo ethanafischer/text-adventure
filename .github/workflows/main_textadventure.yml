@@ -33,7 +33,9 @@ jobs:
           node-version: '20'
           
       - name: Navigate to frontend directory
-        run: cd frontend
+        run: |
+          cd frontend
+          ls
 
       - name: Install frontend dependencies
         run: npm install

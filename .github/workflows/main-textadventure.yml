@@ -11,8 +11,9 @@ jobs:
         runs-on: ubuntu-latest
         steps:
         - name: Setup GitHub CLI
-          uses: actions/checkout@v4
-
+          uses: actions/checkout@v2
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
         - name: Run Frontend Workflow
           run: |
@@ -21,7 +22,7 @@ jobs:
             cd ..
 
         - name: Trigger Backend Workflow
-          uses: actions/checkout@v4
+          uses: actions/checkout@v2
 
         - name: Run Backend Workflow
           run: |

@@ -55,5 +55,5 @@ jobs:
         id: deploy-to-webapp
         with:
           app-name: 'textadventure'
-          slot-name: 'Production'
+          slot-name: 'Frontend'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_686FE9CADF644C2F8507F684BB702B59 }}

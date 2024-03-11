@@ -57,14 +57,13 @@ jobs:
           name: frontend-artifact
           path: frontend.zip
 
-      # Azure Deployment
       - name: Download backend artifact for deployment
         uses: actions/download-artifact@v2
         with:
           name: backend-artifact
 
       - name: Unzip backend artifact for deployment
-        run: unzip backend.zip
+        run: unzip -o backend.zip || true
 
       - name: Download frontend artifact for deployment
         uses: actions/download-artifact@v2
@@ -72,7 +71,7 @@ jobs:
           name: frontend-artifact
 
       - name: Unzip frontend artifact for deployment
-        run: unzip frontend.zip
+        run: unzip -o frontend.zip || true
 
       - name: 'Deploy Backend to Azure Web App'
         uses: azure/webapps-deploy@v2

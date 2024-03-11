@@ -19,7 +19,7 @@ jobs:
           env:
             GH_TOKEN: ${{ github.token }}
           run: |
-            gh workflow run frontend-deploy.yml
+            gh workflow run .github/workflows/frontend-deploy.yml
             cd ..
 
         - name: cd into backend

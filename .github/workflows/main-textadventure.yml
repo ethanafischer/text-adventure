@@ -13,7 +13,7 @@ jobs:
         - name: Setup GitHub CLI
           uses: actions/checkout@v2
           env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            GH_TOKEN: ${{ github.token }}
 
         - name: Run Frontend Workflow
           run: |

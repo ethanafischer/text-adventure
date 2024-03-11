@@ -10,11 +10,11 @@ jobs:
     trigger-subfolder-workflows:
         runs-on: ubuntu-latest
         steps:
-        - name: cd into frontend
-          run: cd frontend
+        
         - name: Setup GitHub CLI
           uses: actions/checkout@v2
-          
+        - name: cd into frontend
+          run: cd frontend
         - name: Run Frontend Workflow
           env:
             GH_TOKEN: ${{ github.token }}

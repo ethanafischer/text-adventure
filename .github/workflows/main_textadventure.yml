@@ -42,7 +42,7 @@ jobs:
         run: npm install ./frontend
 
       - name: Build frontend
-        run: npm run build
+        run: npm run build ./frontend
 
       - name: Zip backend artifact for deployment
         run: zip -r backend.zip app.py __pycache__/*

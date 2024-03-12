@@ -18,8 +18,6 @@ def generate():
     user_input = data.get('input')
     messages.append({"role": "user", "content": user_input})
 
-    print(messages)
-
     try:
         generate = client.chat.completions.create(
                 model="gpt-3.5-turbo-0125", messages=messages

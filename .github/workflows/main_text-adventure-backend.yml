@@ -41,7 +41,7 @@ jobs:
           name: python-app
           path: |
             release.zip
-            !venv/
+            !flask-backend/venv/
 
   deploy:
     runs-on: ubuntu-latest

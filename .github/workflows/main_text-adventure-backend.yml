@@ -28,7 +28,7 @@ jobs:
           source ./flask-backend/venv/bin/activate
       
       - name: Install dependencies
-        run: pip install -r requirements.txt --target ./flask-backend
+        run: pip install -r ./flask-backend/requirements.txt --target ./flask-backend
         
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
 
